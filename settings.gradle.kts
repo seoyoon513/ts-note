@@ -15,4 +15,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "ts-note"
 include(":app")
- 
+include(":feature:main")
+include(":feature:write")
+include(":feature:update")
+include(":core:room")

@@ -1,21 +1,18 @@
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
 }
 
 android {
-    namespace = "com.teamboring.ts_note"
+    namespace = "com.teamboring.ts_note.main"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.teamboring.ts_note"
         minSdk = 23
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -27,6 +24,10 @@ android {
             )
         }
     }
+    buildFeatures {
+        viewBinding = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -37,7 +38,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:main"))
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
