@@ -1,4 +1,4 @@
-package com.teamboring.ts_note.main
+package com.teamboring.ts_note.feature.main
 
 import org.junit.Test
 

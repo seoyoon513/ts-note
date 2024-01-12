@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.teamboring.ts_note.update"
+    namespace = "com.teamboring.ts_note.feature.update"
     compileSdk = 34
 
     defaultConfig {
@@ -23,6 +23,9 @@ android {
                 "proguard-rules.pro"
             )
         }
+    }
+    buildFeatures {
+        viewBinding = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

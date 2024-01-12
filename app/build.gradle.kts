@@ -38,6 +38,8 @@ android {
 
 dependencies {
     implementation(project(":feature:main"))
+    implementation(project(":feature:update"))
+    implementation(project(":feature:write"))
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)

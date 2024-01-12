@@ -1,4 +1,4 @@
-package com.teamboring.ts_note.write
+package com.teamboring.ts_note.feature.write
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

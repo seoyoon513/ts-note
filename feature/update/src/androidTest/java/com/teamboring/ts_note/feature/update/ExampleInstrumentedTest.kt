@@ -1,4 +1,4 @@
-package com.teamboring.ts_note.main
+package com.teamboring.ts_note.feature.update
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.teamboring.ts_note.main.test", appContext.packageName)
+        assertEquals("com.teamboring.ts_note.update.test", appContext.packageName)
     }
 }
