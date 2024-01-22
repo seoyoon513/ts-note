@@ -2,6 +2,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.daggers)
 }
 
 android {
@@ -40,6 +42,9 @@ dependencies {
     implementation(project(":feature:main"))
     implementation(project(":feature:update"))
     implementation(project(":feature:write"))
+
+    implementation(libs.dagger.hilt)
+    ksp(libs.hilt.compiler)
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)

@@ -2,10 +2,12 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.daggers)
 }
 
 android {
-    namespace = "com.teamboring.ts_note.main"
+    namespace = "com.teamboring.ts_note.feature.main"
     compileSdk = 34
 
     defaultConfig {
@@ -40,6 +42,14 @@ android {
 dependencies {
     implementation(project(":feature:write"))
     implementation(project(":feature:update"))
+    implementation(project(":core:room"))
+    implementation(project(":common"))
+
+    implementation(libs.dagger.hilt)
+    ksp(libs.hilt.compiler)
+
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)

@@ -2,13 +2,30 @@ package com.teamboring.ts_note.feature.main
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.teamboring.ts_note.feature.update.UpdateActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.teamboring.ts_note.common.ResultState
+import com.teamboring.ts_note.feature.main.databinding.ActivityMainBinding
 import com.teamboring.ts_note.feature.write.WriteActivity
-import com.teamboring.ts_note.main.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-class MainActivity: AppCompatActivity() {
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var viewModel: MainViewModel
+
+    private val writeActivityResultLauncher = getWriteActivityResultLauncher()
+    private lateinit var noteAdapter: NoteAdapter
+    private fun getWriteActivityResultLauncher() =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                viewModel.getAllNotes()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,14 +33,47 @@ class MainActivity: AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
+
+        setOnAddButtonClickListener()
+        settingAdapter()
+        loadAllNotes()
+    }
+
+    private fun setOnAddButtonClickListener() {
         binding.addButton.setOnClickListener {
             val intent = Intent(this, WriteActivity::class.java)
-            startActivity(intent)
+            writeActivityResultLauncher.launch(intent)
         }
+    }
 
-        binding.updateTestButton.setOnClickListener {
-            val intent = Intent(this, UpdateActivity::class.java)
-            startActivity(intent)
+    private fun settingAdapter() {
+        noteAdapter = NoteAdapter()
+        binding.notesRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.notesRecyclerView.adapter = noteAdapter
+    }
+
+    private fun loadAllNotes() {
+        lifecycleScope.launch {
+            viewModel.notes.collect { result ->
+                when (result) {
+                    is ResultState.Success -> {
+                        noteAdapter.update(result.data)
+                    }
+
+                    is ResultState.Error -> {
+
+                    }
+
+                    is ResultState.Loading -> {
+
+                    }
+
+                    is ResultState.Empty -> {
+
+                    }
+                }
+            }
         }
     }
 }
