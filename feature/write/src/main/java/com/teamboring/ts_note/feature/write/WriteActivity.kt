@@ -19,15 +19,21 @@ class WriteActivity: AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[WriteViewModel::class.java]
 
+        setOnSaveButtonListener()
+
+        binding.backButton.setOnClickListener {
+            finish()
+        }
+    }
+
+    private fun setOnSaveButtonListener() {
         binding.saveButton.setOnClickListener {
             val title = binding.titleView.text.toString()
             val content = binding.contentView.contentText.text.toString()
-            viewModel.save(title, content)
-            setResult(RESULT_OK)
-            finish()
-        }
 
-        binding.backButton.setOnClickListener {
+            viewModel.save(title, content)
+
+            setResult(RESULT_OK)
             finish()
         }
     }

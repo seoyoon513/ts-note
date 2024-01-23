@@ -1,7 +1,6 @@
 package com.teamboring.ts_note.feature.write
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.teamboring.ts_note.core.room.Note
 import com.teamboring.ts_note.core.room.NoteDao
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,7 +1,6 @@
 package com.teamboring.ts_note.feature.main
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.teamboring.ts_note.common.ResultState
 import com.teamboring.ts_note.core.room.Note
 import com.teamboring.ts_note.core.room.NoteDao
