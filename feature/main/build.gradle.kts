@@ -48,6 +48,8 @@ dependencies {
     implementation(libs.dagger.hilt)
     ksp(libs.hilt.compiler)
 
+    implementation(libs.activity.ktx)
+
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.kotlinx.coroutines.android)
 

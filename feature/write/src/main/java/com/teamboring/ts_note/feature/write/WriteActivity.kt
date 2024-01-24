@@ -1,8 +1,8 @@
 package com.teamboring.ts_note.feature.write
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.teamboring.ts_note.feature.write.databinding.ActivityWriteBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -10,17 +10,18 @@ import dagger.hilt.android.AndroidEntryPoint
 class WriteActivity: AppCompatActivity() {
 
     private lateinit var binding: ActivityWriteBinding
-    private lateinit var viewModel: WriteViewModel
+    private val viewModel: WriteViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityWriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this)[WriteViewModel::class.java]
-
         setOnSaveButtonListener()
+        setOnBackButtonListener()
+    }
 
+    private fun setOnBackButtonListener() {
         binding.backButton.setOnClickListener {
             finish()
         }

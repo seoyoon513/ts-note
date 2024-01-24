@@ -40,8 +40,6 @@ android {
 
 dependencies {
     implementation(project(":feature:main"))
-    implementation(project(":feature:update"))
-    implementation(project(":feature:write"))
 
     implementation(libs.dagger.hilt)
     ksp(libs.hilt.compiler)

@@ -12,6 +12,7 @@ room = "2.6.1"
 dagger = "2.48"
 coroutines = "1.7.3"
 lifecycle = "2.7.0"
+activity = "1.8.2"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -28,6 +29,8 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", v
 
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+
+activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activity" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
