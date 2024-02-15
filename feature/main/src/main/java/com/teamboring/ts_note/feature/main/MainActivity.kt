@@ -2,13 +2,16 @@ package com.teamboring.ts_note.feature.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.teamboring.ts_note.common.ResultState
+import com.teamboring.ts_note.core.room.Note
 import com.teamboring.ts_note.feature.main.databinding.ActivityMainBinding
+import com.teamboring.ts_note.feature.update.UpdateActivity
 import com.teamboring.ts_note.feature.write.WriteActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -46,9 +49,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun settingAdapter() {
-        noteAdapter = NoteAdapter()
+        noteAdapter = NoteAdapter(onSelectItem = onSelectItem(), onDeleteItem = onDeleteNote())
         binding.notesRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.notesRecyclerView.adapter = noteAdapter
+    }
+
+    private fun onDeleteNote(): (Note) -> Unit = {
+        viewModel.deleteNote(it)
+    }
+
+    private fun onSelectItem(): (Int) -> Unit = {
+        val intent = Intent(this, UpdateActivity::class.java)
+        intent.putExtra("noteId", it)
+        writeActivityResultLauncher.launch(intent)
     }
 
     private fun loadAllNotes() {
@@ -56,19 +69,22 @@ class MainActivity : AppCompatActivity() {
             viewModel.notes.collect { result ->
                 when (result) {
                     is ResultState.Success -> {
+                        binding.loadingProgressBar.visibility = View.GONE
+                        binding.emptyView.visibility = View.GONE
                         noteAdapter.update(result.data)
                     }
 
                     is ResultState.Error -> {
-
+                        binding.loadingProgressBar.visibility = View.GONE
                     }
 
                     is ResultState.Loading -> {
-
+                        binding.loadingProgressBar.visibility = View.VISIBLE
                     }
 
                     is ResultState.Empty -> {
-
+                        binding.loadingProgressBar.visibility = View.GONE
+                        binding.emptyView.visibility = View.VISIBLE
                     }
                 }
             }

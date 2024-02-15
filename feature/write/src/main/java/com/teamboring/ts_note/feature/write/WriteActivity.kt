@@ -30,7 +30,7 @@ class WriteActivity: AppCompatActivity() {
     private fun setOnSaveButtonListener() {
         binding.saveButton.setOnClickListener {
             val title = binding.titleView.text.toString()
-            val content = binding.contentView.contentText.text.toString()
+            val content = binding.contentText.text.toString()
 
             viewModel.save(title, content)
 

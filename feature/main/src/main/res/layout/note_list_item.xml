@@ -1,35 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:padding="8dp">
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/note_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:textColor="@android:color/darker_gray"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="2024년 01월 27일 13:40" />
 
-    <TextView
-        android:id="@+id/note_title"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/note_title_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textColor="@color/black"
-        android:textSize="28sp"
-        android:textStyle="bold"
+        android:gravity="center_vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/note_date"
-        tools:text="테스트 노트 제목입니다" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/note_date">
+
+        <TextView
+            android:id="@+id/note_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="테스트 노트 asdfasdfasdfasdf" />
+
+        <ImageButton
+            android:id="@+id/delete_note_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_delete_forever"
+            android:padding="8dp"
+            android:importantForAccessibility="no" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/note_content"
@@ -39,8 +58,10 @@
         android:layout_marginEnd="16dp"
         android:textColor="@color/black"
         android:textSize="18sp"
+        android:maxLines="2"
+        android:ellipsize="end"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/note_title"
+        app:layout_constraintTop_toBottomOf="@id/note_title_container"
         tools:text="Lorem ipsum dolor sit amet, con" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

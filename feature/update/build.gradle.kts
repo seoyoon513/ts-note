@@ -2,6 +2,8 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.daggers)
 }
 
 android {
@@ -37,6 +39,16 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:room"))
+    implementation(project(":common"))
+
+    implementation(libs.dagger.hilt)
+    ksp(libs.hilt.compiler)
+
+    implementation(libs.activity.ktx)
+
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.kotlinx.coroutines.android)
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)

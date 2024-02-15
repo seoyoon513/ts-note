@@ -4,21 +4,29 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.teamboring.ts_note.core.room.Note
 
-class NoteAdapter(private val noteList: MutableList<Note> = mutableListOf()) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteAdapter(private val onSelectItem: (Int) -> Unit, private val onDeleteItem: (Note) -> Unit) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+    private val noteList: MutableList<Note> = mutableListOf()
 
     inner class NoteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val titleView: TextView = view.findViewById(R.id.note_title)
         private val contentView: TextView = view.findViewById(R.id.note_content)
         private val dateView: TextView = view.findViewById(R.id.note_date)
+        private val deleteButtonView: ImageButton = view.findViewById(R.id.delete_note_button)
 
         fun bind(note: Note) {
             titleView.text = note.title
             contentView.text = note.content
             dateView.text = note.date
+            deleteButtonView.setOnClickListener {
+                onDeleteItem(note)
+                noteList.remove(note)
+                notifyItemRemoved(adapterPosition)
+            }
         }
     }
 
@@ -30,6 +38,9 @@ class NoteAdapter(private val noteList: MutableList<Note> = mutableListOf()) : R
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         holder.bind(noteList[position])
+        holder.itemView.setOnClickListener {
+            onSelectItem(noteList[position].noteId)
+        }
     }
 
     override fun getItemCount(): Int {

@@ -16,7 +16,7 @@ interface NoteDao {
     fun findById(noteId: Int): Flow<Note>
 
     @Update
-    fun update(note: Note)
+    fun update(note: Note): Int
 
     @Insert
     fun insertAll(vararg notes: Note)
