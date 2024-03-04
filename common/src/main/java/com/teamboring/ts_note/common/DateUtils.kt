@@ -4,8 +4,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-fun getCurrentTimeText(): String {
-    val date = Date()
+fun getCurrentTimeText(date: Date = Date()): String {
     val dateFormatWithZone = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
     return dateFormatWithZone.format(date)
 }
