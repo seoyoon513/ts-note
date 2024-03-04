@@ -4,9 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -33,19 +32,61 @@ class NoteDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun writeAndReadTest() {
+    fun insertAllTest() = runTest {
         val note = Note(
             title = "testTitle",
             content = "testContent",
         )
         noteDao.insertAll(note)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            noteDao.getAll().collect { allNotes ->
-                assert(allNotes[0].title == "testTitle")
-                assert(allNotes[0].content == "testContent")
-            }
-        }
+        val allNotes = noteDao.getAll().first()
 
+        assert(allNotes[0].title == "testTitle")
+        assert(allNotes[0].content == "testContent")
+    }
+
+    @Test
+    fun updateTest() = runTest {
+        val note = Note(
+            noteId = 3,
+            title = "testTitle",
+            content = "testContent",
+        )
+        noteDao.insertAll(note)
+        val result = noteDao.update(note.copy(title = "newTitle"))
+        assert(result == 1)
+
+        val allNotes = noteDao.getAll().first()
+        assert(allNotes[0].title == "newTitle")
+    }
+
+
+    @Test
+    fun deleteTest() = runTest {
+        val note = Note(
+            title = "testTitle",
+            content = "testContent",
+        )
+        noteDao.insertAll(note)
+        noteDao.delete(note)
+
+        val allNotes = noteDao.getAll().first()
+        assert(allNotes.isNotEmpty())
+    }
+
+
+    @Test
+    fun findByIdTest() = runTest {
+        val noteId = 3
+        val note = Note(
+            noteId = noteId,
+            title = "testTitle",
+            content = "testContent",
+        )
+        noteDao.insertAll(note)
+
+        val foundNote = noteDao.findById(noteId).first()
+        assert(foundNote.title == "testTitle")
+        assert(foundNote.content == "testContent")
     }
 }
