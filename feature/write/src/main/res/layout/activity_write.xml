@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/back_button"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="테스트 제목"
+        android:hint="@string/input_title_hint"
         android:textSize="20sp"
         android:padding="12dp"
         android:background="@android:color/transparent"
@@ -80,8 +80,7 @@
             android:inputType="textMultiLine"
             android:padding="12dp"
             android:textSize="16sp"
-            android:hint="@string/input_text"
-            tools:text="테스트 내용입니다. 테스트 내용입니다.테스트 내용입니다.테스트 내용입니다.테스트 내용입니다.테스트 내용입니다.테스트 내용입니다.테스트 내용입니다.테스트 내용입니다.\n테스트 내용입니다.\n테스트 내용입니다.\n테스트 내용입니다.\n테스트 내용입니다.\n테스트 내용입니다.\n테스트 내용입니다.\n테스트 내용입니다.\n테스트 내용입니다.\n테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n테스트 내용입니다.\n테스트 내용입니다.\n테스트 내용입니다.\n테스트 내용입니다.\n테스트 내용입니다.\n테스트 내용입니다.\n테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n 테스트 내용입니다.\n "
+            android:hint="@string/input_content_hint"
             />
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

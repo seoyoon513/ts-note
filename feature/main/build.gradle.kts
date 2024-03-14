@@ -46,6 +46,7 @@ dependencies {
     implementation(project(":common"))
 
     implementation(libs.dagger.hilt)
+    implementation(libs.androidx.junit.ktx)
     ksp(libs.hilt.compiler)
 
     implementation(libs.activity.ktx)

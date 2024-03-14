@@ -64,6 +64,7 @@ class NoteDaoTest {
     @Test
     fun deleteTest() = runTest {
         val note = Note(
+            noteId = 3,
             title = "testTitle",
             content = "testContent",
         )
@@ -71,7 +72,7 @@ class NoteDaoTest {
         noteDao.delete(note)
 
         val allNotes = noteDao.getAll().first()
-        assert(allNotes.isNotEmpty())
+        assert(allNotes.isEmpty())
     }
 
 
