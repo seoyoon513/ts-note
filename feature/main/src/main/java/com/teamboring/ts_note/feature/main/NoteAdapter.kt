@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.teamboring.ts_note.core.room.Note
 
-class NoteAdapter(private val onSelectItem: (Int) -> Unit, private val onDeleteItem: (Note) -> Unit) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteAdapter(private val onSelectItem: (Int) -> Unit, private val onDeleteItem: (Note, Int) -> Unit) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     private val noteList: MutableList<Note> = mutableListOf()
 
     inner class NoteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -23,11 +23,14 @@ class NoteAdapter(private val onSelectItem: (Int) -> Unit, private val onDeleteI
             contentView.text = note.content
             dateView.text = note.date
             deleteButtonView.setOnClickListener {
-                onDeleteItem(note)
-                noteList.remove(note)
-                notifyItemRemoved(adapterPosition)
+                onDeleteItem(note, adapterPosition)
             }
         }
+    }
+
+    fun removeItem(note: Note, adapterPosition: Int) {
+        noteList.remove(note)
+        notifyItemRemoved(adapterPosition)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {

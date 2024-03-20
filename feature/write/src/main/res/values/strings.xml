@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="input_title_hint">제목을 입력하세요</string>
+    <string name="save_button">저장</string>
+    <string name="update_button">수정</string>
 </resources>

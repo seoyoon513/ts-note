@@ -41,7 +41,6 @@ android {
 
 dependencies {
     implementation(project(":feature:write"))
-    implementation(project(":feature:update"))
     implementation(project(":core:room"))
     implementation(project(":common"))
 
