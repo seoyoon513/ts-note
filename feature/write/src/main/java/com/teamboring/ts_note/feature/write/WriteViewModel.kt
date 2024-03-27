@@ -14,43 +14,39 @@ import javax.inject.Inject
 @HiltViewModel
 class WriteViewModel @Inject constructor(private val dao: NoteDao) : ViewModel() {
 
-    private val _note = MutableStateFlow(Note())
-    val note: StateFlow<Note> = _note
-
-    private val _state = MutableStateFlow(SaveState.IDLE)
-    val state: StateFlow<SaveState> = _state
+    private val _state = MutableStateFlow(NoteState(NoteLoadState.IDLE))
+    val state: StateFlow<NoteState> = _state
 
     fun save(title: String, content: String) = viewModelScope.launch(Dispatchers.IO) {
-        dao.insertAll(
-            Note(
-                title = title,
-                content = content
-            )
+        val note = Note(
+            title = title,
+            content = content
         )
-        _state.value = SaveState.SUCCESS
+        dao.insertAll(note)
+        _state.value = NoteState(NoteLoadState.ADDED, note)
     }
 
     fun loadData(noteId: Int) = viewModelScope.launch(Dispatchers.IO) {
-        _state.value = SaveState.LOADING
+        _state.value = NoteState(NoteLoadState.LOADING)
         dao.findById(noteId).collect { note ->
-            _note.value = note
-            _state.value = SaveState.LOADED
+            _state.value = NoteState(NoteLoadState.ADDED, note)
         }
     }
 
     fun update(title: String, text: String) = viewModelScope.launch(Dispatchers.IO) {
-        val newNote = Note(noteId = _note.value.noteId, title = title, content = text)
+        val newNote = Note(noteId = state.value.note.noteId, title = title, content = text)
         dao.update(newNote).apply {
             if (this == 1) {
-                _state.value = SaveState.SUCCESS
+                _state.value = NoteState(NoteLoadState.UPDATED, newNote)
             } else {
-                _state.value = SaveState.ERROR
+                _state.value = NoteState(NoteLoadState.ERROR, newNote)
             }
         }
     }
 }
 
-enum class SaveState {
-    IDLE, LOADING, LOADED, SUCCESS, ERROR
-}
+data class NoteState(val loadState: NoteLoadState, val note: Note = Note())
 
+enum class NoteLoadState {
+    IDLE, LOADING, ADDED, UPDATED, ERROR
+}

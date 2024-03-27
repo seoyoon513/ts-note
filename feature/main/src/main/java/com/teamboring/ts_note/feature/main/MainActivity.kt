@@ -3,12 +3,14 @@ package com.teamboring.ts_note.feature.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.teamboring.ts_note.common.R
 import com.teamboring.ts_note.common.ResultState
 import com.teamboring.ts_note.core.room.Note
 import com.teamboring.ts_note.feature.main.databinding.ActivityMainBinding
@@ -49,14 +51,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun settingAdapter() {
-        noteAdapter = NoteAdapter(onSelectItem = onSelectItem(), onDeleteItem = { a, b ->
-            onDeleteNote(a, b) })
+        noteAdapter = NoteAdapter(
+            onSelectItem = onSelectItem,
+            onDeleteItem = { note, position -> onDeleteNote(note, position) })
         binding.notesRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.notesRecyclerView.adapter = noteAdapter
     }
 
     private fun onDeleteNote(note: Note, adapterPosition: Int) {
-        val dialog = AlertDialog.Builder(this, com.teamboring.ts_note.common.R.style.AlertDialogTheme)
+        AlertDialog.Builder(this, R.style.AlertDialogTheme)
             .setTitle("삭제")
             .setMessage("정말 삭제하시겠습니까?")
             .setPositiveButton("삭제") { _, _ ->
@@ -65,40 +68,39 @@ class MainActivity : AppCompatActivity() {
             }
             .setNegativeButton("취소") { _, _ -> }
             .create()
-        dialog.show()
+            .show()
     }
 
-    private fun onSelectItem(): (Int) -> Unit = {
+    private val onSelectItem: (Int) -> Unit = {
         val intent = Intent(this, WriteActivity::class.java)
         intent.putExtra("noteId", it)
         writeActivityResultLauncher.launch(intent)
     }
 
-    private fun loadAllNotes() {
-        lifecycleScope.launch {
-            viewModel.notes.collect { result ->
-                when (result) {
-                    is ResultState.Success -> {
-                        binding.loadingProgressBar.visibility = View.GONE
-                        binding.emptyTextView.visibility = View.GONE
-                        noteAdapter.update(result.data)
-                    }
+    private fun loadAllNotes() = lifecycleScope.launch {
+        viewModel.notes.collect { result ->
+            when (result) {
+                is ResultState.Success -> {
+                    binding.loadingProgressBar.visibility = View.GONE
+                    binding.emptyTextView.visibility = View.GONE
+                    noteAdapter.update(result.data)
+                }
 
-                    is ResultState.Error -> {
-                        binding.loadingProgressBar.visibility = View.GONE
-                    }
+                is ResultState.Error -> {
+                    binding.loadingProgressBar.visibility = View.GONE
+                    Toast.makeText(this@MainActivity, "데이터를 불러오는데 실패했습니다.", Toast.LENGTH_SHORT)
+                        .show()
+                }
 
-                    is ResultState.Loading -> {
-                        binding.loadingProgressBar.visibility = View.VISIBLE
-                    }
+                is ResultState.Loading -> {
+                    binding.loadingProgressBar.visibility = View.VISIBLE
+                }
 
-                    is ResultState.Empty -> {
-                        binding.loadingProgressBar.visibility = View.GONE
-                        binding.emptyTextView.visibility = View.VISIBLE
-                    }
+                is ResultState.Empty -> {
+                    binding.loadingProgressBar.visibility = View.GONE
+                    binding.emptyTextView.visibility = View.VISIBLE
                 }
             }
         }
     }
-
 }

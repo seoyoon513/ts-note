@@ -16,6 +16,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.teamboring.ts_note.feature.main.MainActivity
 import com.teamboring.ts_note.feature.main.R
 import com.teamboring.ts_note.feature.write.WriteActivity
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -42,12 +43,17 @@ class MainActivityTest {
 
     @Test
     fun 저장된_노트가_없으면_없다는_문구를_띄운다() {
-        onView(withId(R.id.empty_image_view)).check(matches(isDisplayed()))
         onView(withId(R.id.empty_text_view)).check(matches(isDisplayed()))
 
-        val emptyText = InstrumentationRegistry.getInstrumentation().targetContext.resources.getString(R.string.empty_notes)
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val emptyText = context.resources.getString(R.string.empty_notes)
         onView(withId(R.id.empty_text_view)).check { view, _ ->
             assertEquals((view as TextView).text, emptyText)
         }
+    }
+
+    @After
+    fun tearDown() {
+        Intents.release()
     }
 }

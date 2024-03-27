@@ -65,6 +65,7 @@
         android:text="@string/empty_notes"
         android:textColor="@color/black"
         android:textSize="30sp"
-        app:drawableTopCompat="@drawable/ic_error_outline" />
+        app:drawableTopCompat="@drawable/ic_error_outline"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

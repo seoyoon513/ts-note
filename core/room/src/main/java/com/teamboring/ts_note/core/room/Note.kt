@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.teamboring.ts_note.common.getCurrentTimeText
+import java.io.Serializable
 
 @Entity
 data class Note(
@@ -11,4 +12,4 @@ data class Note(
     @ColumnInfo val title: String = "",
     @ColumnInfo val content: String = "",
     @ColumnInfo val date: String = getCurrentTimeText(),
-)
+): Serializable
